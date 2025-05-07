@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="path/to/your/logo.png" type="image/png">
+    <title>TrigoMattps - Matemáticas Simplificadas</title>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <a href="#" class="navbar__logo">TrigoMattps</a>
+        <div class="navbar__notch">
+            <p>Inicio</p>
+            <a href="index.html" class="navbar__menu-link">Inicio</a>
+        </div>
+
+        <div class="navbar__menu">
+            <a href="Teorema.html" class="navbar__menu-link">Pitágoras</a>
+            <a href="Funciones.html" class="navbar__menu-link">Funciones Trigonométricas</a>
+            <a href="Plano Cartesiano.html" class="navbar__menu-link">Plano Cartesiano</a>
+        </div>
+    </nav>
+
+    <h2 class="separator">Teorema de Pitágoras</h2>
+
+    <div class="program">
+        <div class="program__info">
+            <h2 class="program__title">Entiende el Teorema de Pitágoras</h2>
+            <p class="program__description">
+                El teorema de Pitágoras establece que en un triángulo rectángulo, el cuadrado de la hipotenusa es igual a la suma de los cuadrados de los catetos. Esto se expresa como: <br>
+                <strong>c² = a² + b²</strong>, donde <em>c</em> es la hipotenusa y <em>a</em> y <em>b</em> son los catetos.
+            </p>
+        </div>
+        <div class="program__image">
+            <img src="img/img2.jpg" class="program__image-photo">
+        </div>
+    </div>
+
+    <h2 class="separator trig-title">Calculadora de Teorema de Pitágoras</h2>
+
+    <div class="trig-form">
+        <label for="a" class="trig-form__label">Cateto A:</label>
+        <input type="number" id="a" class="trig-form__input" placeholder="Ej: 3">
+
+        <label for="b" class="trig-form__label">Cateto B:</label>
+        <input type="number" id="b" class="trig-form__input" placeholder="Ej: 4">
+
+        <label for="c" class="trig-form__label">Hipotenusa (opcional):</label>
+        <input type="number" id="c" class="trig-form__input" placeholder="Ej: 5">
+
+        <label for="angle" class="trig-form__label">Ángulo (opcional, en grados):</label>
+        <input type="number" id="angle" class="trig-form__input" placeholder="Ej: 45">
+        
+        <button class="trig-form__button" onclick="calculate()">Calcular</button>
+    </div>
+
+    <p id="result" class="trig-results"></p>
+
+    <!-- Figuras relacionadas al teorema -->
+    <section class="figures">
+        <h2 class="separator">Figuras Relacionadas</h2>
+        <div class="trig-form">
+            <div class="figure">
+                <img src="img/images1.jpg" alt="Triángulo Rectángulo" class="course-list__item-image">
+                <p class="program__description">Triángulo Rectángulo con catetos a y b, y la hipotenusa c.</p>
+            </div>
+            <div class="figure">
+                <img src="img/images2.jpg" alt="Cuadrados en los catetos" class="course-list__item-image">
+                <p class="program__description">Representación gráfica de a² + b² = c².</p>
+            </div>
+            <div class="figure">
+                <img src="img/images3.png" alt="Visualización del Teorema" class="course-list__item-image">
+                <p class="program__description">Visualización animada del Teorema de Pitágoras.</p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function calculate() {
+            const a = parseFloat(document.getElementById('a').value);
+            const b = parseFloat(document.getElementById('b').value);
+            const c = parseFloat(document.getElementById('c').value);
+            const angle = parseFloat(document.getElementById('angle').value);
+
+            if (isNaN(a) || isNaN(b)) {
+                alert('Por favor ingrese valores válidos para los catetos.');
+                return;
+            }
+
+            if (isNaN(c)) {
+                const hypotenuse = Math.sqrt(a * a + b * b);
+                document.getElementById('result').textContent = `La hipotenusa es: ${hypotenuse.toFixed(2)}`;
+            } else if (!isNaN(c) && isNaN(a)) {
+                const missingCateto = Math.sqrt(c * c - b * b);
+                if (missingCateto > 0) {
+                    document.getElementById('result').textContent = `El cateto A es: ${missingCateto.toFixed(2)}`;
+                } else {
+                    document.getElementById('result').textContent = "Error: La hipotenusa no puede ser menor que el cateto.";
+                }
+            } else if (!isNaN(c) && isNaN(b)) {
+                const missingCateto = Math.sqrt(c * c - a * a);
+                if (missingCateto > 0) {
+                    document.getElementById('result').textContent = `El cateto B es: ${missingCateto.toFixed(2)}`;
+                } else {
+                    document.getElementById('result').textContent = "Error: La hipotenusa no puede ser menor que el cateto.";
+                }
+            } else if (!isNaN(angle)) {
+                const angleRadians = (angle * Math.PI) / 180;
+                const hypotenuse = Math.sqrt(a * a + b * b);
+                const adjacent = a;
+                const angleResult = Math.acos(adjacent / hypotenuse) * (180 / Math.PI);
+                document.getElementById('result').textContent = `El ángulo es: ${angleResult.toFixed(2)}°`;
+            }
+
+            if (c && (c <= a || c <= b)) {
+                document.getElementById('result').textContent = "Error: La hipotenusa no es la más grande. Vuelve a intentarlo.";
+            }
+        }
+    </script>
+
+    <div class="about">
+        <img src="img/img6.jpg" alt="About Image" class="about__image">
+        <div class="about__details">
+            <div class="about__details-title">Sobre TrigoMattps</div>
+            <div class="about__details-description">
+                En TrigoMattps, nos dedicamos a hacer que las matemáticas sean accesibles y divertidas para todos. Ofrecemos recursos interactivos y ejercicios prácticos para mejorar tus habilidades matemáticas.
+            </div>
+            <button class="about__details-button">Conócenos</button>
+        </div>
+    </div>
+
+    <div class="gradient">
+        <div class="subscription">
+            <h2 class="subscription__title">Suscríbete para Recibir Novedades</h2>
+            <p class="subscription__description">
+                Mantente al día con nuestras últimas lecciones y recursos exclusivos directamente en tu correo.
+            </p>
+            <form class="subscription__form">
+                <input type="email" class="subscription__input" placeholder="Ingresa tu email" required>
+                <button type="submit" class="subscription__button">Suscribirse</button>
+            </form>
+        </div>
+       
+        <footer class="footer">
+            <div class="footer-links">
+                <div class="footer__branding">
+                    <p class="footer__brand-name">TrigoMattps</p>
+                </div>
+
+                <div class="footer__column">
+                    <a href="Teorema.html" class="footer__link">Teorema de Pitágoras</a>
+                    <a href="Funciones.html" class="footer__link">Funciones Trigonométricas</a>
+                    <a href="Graficas y Operaciones.html" class="footer__link">Ejercicios</a>
+                    <a href="Contacto.php" class="footer__link">Contacto</a>
+                </div>
+            </div>
+
+            <p class="footer__copyright">2025 © TrigoMattps</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

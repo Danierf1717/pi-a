@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Funciones Trigonométricas - TrigoMattps</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="#" class="navbar__logo">TrigoMattps</a>
+    <div class="navbar__menu">
+      <a href="index.html" class="navbar__menu-link">Inicio</a>
+      <a href="Teorema.html" class="navbar__menu-link">Pitágoras</a>
+      <a href="Funciones.html" class="navbar__menu-link">Funciones Trigonométricas</a>
+      <a href="Plano Cartesiano.html" class="navbar__menu-link">Plano Cartesiano</a>
+    </div>
+  </nav>
+
+  <h2 class="separator">Funciones Trigonométricas y Figuras</h2>
+
+  <div class="program">
+      <div class="program__info">
+          <h2 class="program__title">Entiende el Teorema de Pitágoras</h2>
+          <p class="program__description">
+              Este ejemplo muestra cómo usar funciones trigonométricas para dibujar figuras y calcular valores.
+          </p>
+      </div>
+      <div class="program__image">
+          <img src="img/img1.jpg" class="program__image-photo">
+      </div>
+  </div>
+
+
+
+  <main>
+    <h2 class="separator">Funciones Trigonométricas</h2>
+    <ul><center>
+      <li><strong>Seno (sin):</strong> Opuesto / Hipotenusa</li>
+      <li><strong>Coseno (cos):</strong> Adyacente / Hipotenusa</li>
+      <li><strong>Tangente (tan):</strong> Opuesto / Adyacente</li>
+      <li><strong>Cosecante (csc):</strong> 1 / Seno</li>
+      <li><strong>Secante (sec):</strong> 1 / Coseno</li>
+      <li><strong>Cotangente (cot):</strong> 1 / Tangente</li>
+    </ul></center>
+  
+    <h2 class="separator">Calculadora de Funciones Trigonométricas</h2>
+    <form id="trigForm" class="trig-form">
+      <label for="angle" class="trig-form__label">Ángulo (en grados):</label>
+      <input type="number" id="angle" name="angle" class="trig-form__input" required>
+      <button type="button" class="trig-form__button" onclick="calculateTrig()">Calcular</button>
+    </form>
+  
+    <div class="function-container">
+      <h3 class="function-container__title">Resultados</h3>
+      <div id="trigResults" class="function-container__results"></div>
+    </div>
+  
+    <h2 class="separator">Evaluar Expresión</h2>
+    <form class="trig-form">
+      <label for="customExpr" class="trig-form__label">Ingresa expresión (Ej: sin(30) + cos(45)):</label>
+      <input type="text" id="customExpr" class="trig-form__input" placeholder="Ej: sin(30) + cos(45)">
+      <button type="button" class="trig-form__button" onclick="evalExpression()">Evaluar</button>
+    </form>
+   <center><div id="customResult" class="function-container__results"></div></center> 
+  
+    <h2 class="trig-title">Gráfica Seno / Coseno</h2>
+    <canvas id="graphCanvas" width="600" height="300" class="trig-canvas"></canvas>
+  
+    <audio id="audio" src="SpotifyMate.com - EEYUH_ _Slowed _ Reverb_ - HR.mp3" preload="auto" loop></audio>
+    <button id="startButton" style="visibility: hidden;">Ir a Plano Cartesiano</button>
+    <button id="infoButton" style="visibility: hidden;">Ir a Funciones</button>
+  </main>
+  
+<script>
+    function toRadians(deg) {
+      return deg * Math.PI / 180;
+    }
+
+    function calculateTrig() {
+      const angle = parseFloat(document.getElementById('angle').value);
+      const rad = toRadians(angle);
+      const result = `
+        <p>sin(${angle}) = ${Math.sin(rad).toFixed(4)}</p>
+        <p>cos(${angle}) = ${Math.cos(rad).toFixed(4)}</p>
+        <p>tan(${angle}) = ${Math.tan(rad).toFixed(4)}</p>
+        <p>csc(${angle}) = ${(1 / Math.sin(rad)).toFixed(4)}</p>
+        <p>sec(${angle}) = ${(1 / Math.cos(rad)).toFixed(4)}</p>
+        <p>cot(${angle}) = ${(1 / Math.tan(rad)).toFixed(4)}</p>
+      `;
+      document.getElementById('trigResults').innerHTML = result;
+    }
+
+    function evalExpression() {
+      try {
+        const expr = document.getElementById('customExpr').value;
+        const replaced = expr.replace(/(sin|cos|tan|csc|sec|cot)\((.*?)\)/g, (match, fn, angle) => {
+          const rad = toRadians(parseFloat(angle));
+          switch (fn) {
+            case 'sin': return Math.sin(rad);
+            case 'cos': return Math.cos(rad);
+            case 'tan': return Math.tan(rad);
+            case 'csc': return 1 / Math.sin(rad);
+            case 'sec': return 1 / Math.cos(rad);
+            case 'cot': return 1 / Math.tan(rad);
+            default: return match;
+          }
+        });
+        const result = eval(replaced).toFixed(4);
+        document.getElementById('customResult').innerHTML = `Resultado: ${result}`;
+      } catch {
+        document.getElementById('customResult').innerHTML = `Expresión inválida.`;
+      }
+    }
+
+    // Gráfica seno y coseno
+    const canvas = document.getElementById("graphCanvas");
+    const ctx = canvas.getContext("2d");
+
+    // seno
+    ctx.beginPath();
+    ctx.moveTo(0, 150);
+    for (let x = 0; x <= 600; x++) {
+      const angle = x * 2 * Math.PI / 600;
+      const y = 150 - Math.sin(angle) * 100;
+      ctx.lineTo(x, y);
+    }
+    ctx.strokeStyle = "blue";
+    ctx.stroke();
+
+    // coseno
+    ctx.beginPath();
+    ctx.moveTo(0, 150);
+    for (let x = 0; x <= 600; x++) {
+      const angle = x * 2 * Math.PI / 600;
+      const y = 150 - Math.cos(angle) * 100;
+      ctx.lineTo(x, y);
+    }
+    ctx.strokeStyle = "green";
+    ctx.stroke();
+  </script>
+
+<div class="about">
+    <img src="img/img4.jpg" alt="About Image" class="about__image">
+    <div class="about__details">
+        <div class="about__details-title">Sobre TrigoMattps</div>
+        <div class="about__details-description">
+            En TrigoMattps, nos dedicamos a hacer que las matemáticas sean accesibles y divertidas para todos. Ofrecemos recursos interactivos y ejercicios prácticos para mejorar tus habilidades matemáticas.
+        </div>
+        <button class="about__details-button">Conócenos</button>
+    </div>
+</div>
+
+<div class="gradient">
+    <div class="subscription">
+        <h2 class="subscription__title">Suscríbete para Recibir Novedades</h2>
+        <p class="subscription__description">
+            Mantente al día con nuestras últimas lecciones y recursos exclusivos directamente en tu correo.
+        </p>
+        <form class="subscription__form">
+            <input type="email" class="subscription__input" placeholder="Ingresa tu email" required>
+            <button type="submit" class="subscription__button">Suscribirse</button>
+        </form>
+    </div>
+   
+    <footer class="footer">
+        <div class="footer-links">
+            <div class="footer__branding">
+                <p class="footer__brand-name">TrigoMattps</p>
+            </div>
+
+            <div class="footer__column">
+                <a href="Teorema.html" class="footer__link">Teorema de Pitágoras</a>
+                <a href="Funciones.html" class="footer__link">Funciones Trigonométricas</a>
+                <a href="Graficas y Operaciones.html" class="footer__link">Ejercicios</a>
+                <a href="Contacto.php" class="footer__link">Contacto</a>
+            </div>
+        </div>
+
+        <p class="footer__copyright">2025 © TrigoMattps</p>
+    </footer>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
+

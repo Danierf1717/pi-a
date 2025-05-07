@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="img/logo.png" type="image/png">
+  <title>Explora el Plano Cartesiano</title>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="#" class="navbar__logo">MatiGeoX</a>
+    <div class="navbar__notch">
+      <p>Inicio</p>
+      <a href="index.html" class="navbar__menu-link">Inicio</a>
+    </div>
+    <div class="navbar__menu">
+      <a href="Teorema.html" class="navbar__menu-link">Teorema de Pitágoras</a>
+      <a href="Funciones.html" class="navbar__menu-link">Funciones Trigonométricas</a>
+      <a href="Plano_Cartesiano.html" class="navbar__menu-link">Plano Cartesiano</a>
+    </div>
+  </nav>
+
+  <div class="program">
+    <div class="program__info">
+      <h2 class="program__title">Descubre el Mundo del Plano Cartesiano</h2>
+      <p class="program__description">
+        Aprende a ubicar puntos y representar funciones matemáticas sobre ejes coordenados de forma interactiva y clara.
+      </p>
+    </div>
+    <div class="program__image">
+      <img src="img/img6.jpg" class="program__image-photo" alt="Plano Cartesiano">
+    </div>
+  </div>
+
+  <main>
+    <section>
+      <h2 class="separator">Ubica Puntos en el Plano</h2>
+      <form id="pointForm" class="trig-form">
+        <label for="xValue" class="trig-form__label">Coordenada X:</label>
+        <input type="number" id="xValue" class="trig-form__input" placeholder="Ej: -4" required>
+        <label for="yValue" class="trig-form__label">Coordenada Y:</label>
+        <input type="number" id="yValue" class="trig-form__input" placeholder="Ej: 5" required>
+        <button type="button" class="trig-form__button" onclick="plotPoint()">Ubicar Punto</button>
+      </form>
+      <canvas id="canvas" width="400" height="400" class="trig-canvas"></canvas>
+      <div id="functionResult"></div>
+    </section>
+
+    <section>
+      <h2 class="separator">Dibuja una Recta</h2>
+      <form id="lineForm" class="trig-form">
+        <label for="slope" class="trig-form__label">Pendiente (m):</label>
+        <input type="number" id="slope" class="trig-form__input" placeholder="Ej: 0.5" required>
+        <label for="intercept" class="trig-form__label">Ordenada al origen (b):</label>
+        <input type="number" id="intercept" class="trig-form__input" placeholder="Ej: 2" required>
+        <button type="button" class="trig-form__button" onclick="plotLine()">Dibujar Recta</button>
+      </form>
+    </section>
+  </main>
+
+  <audio id="audio" src="audio/fondo.mp3" preload="auto" loop></audio>
+  <button id="muteButton">🔊</button>
+
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    const scale = 20;
+
+    function drawAxes() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.beginPath();
+      ctx.moveTo(200, 0);
+      ctx.lineTo(200, 400);
+      ctx.moveTo(0, 200);
+      ctx.lineTo(400, 200);
+      ctx.strokeStyle = '#333';
+      ctx.stroke();
+    }
+
+    function plotPoint() {
+      const x = parseFloat(document.getElementById('xValue').value);
+      const y = parseFloat(document.getElementById('yValue').value);
+      drawAxes();
+
+      const scaledX = 200 + (x * scale);
+      const scaledY = 200 - (y * scale);
+
+      ctx.beginPath();
+      ctx.arc(scaledX, scaledY, 5, 0, 2 * Math.PI);
+      ctx.fillStyle = '#E63946';
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = 'black';
+      ctx.fillText(`(${x}, ${y})`, scaledX + 6, scaledY - 6);
+    }
+
+    function plotLine() {
+      const m = parseFloat(document.getElementById('slope').value);
+      const b = parseFloat(document.getElementById('intercept').value);
+      drawAxes();
+
+      const x1 = -10;
+      const y1 = m * x1 + b;
+      const x2 = 10;
+      const y2 = m * x2 + b;
+
+      const scaledX1 = 200 + (x1 * scale);
+      const scaledY1 = 200 - (y1 * scale);
+      const scaledX2 = 200 + (x2 * scale);
+      const scaledY2 = 200 - (y2 * scale);
+
+      ctx.beginPath();
+      ctx.moveTo(scaledX1, scaledY1);
+      ctx.lineTo(scaledX2, scaledY2);
+      ctx.strokeStyle = '#1D3557';
+      ctx.stroke();
+
+      ctx.fillStyle = '#000';
+      ctx.fillText(`y = ${m}x + ${b}`, scaledX2 + 8, scaledY2);
+    }
+
+    drawAxes();
+
+    // AUDIO CONTROL
+    document.addEventListener("DOMContentLoaded", () => {
+      const audio = document.getElementById('audio');
+      const muteButton = document.getElementById('muteButton');
+
+      const savedTime = localStorage.getItem('audioTime');
+      if (savedTime) audio.currentTime = parseFloat(savedTime);
+
+      audio.play().catch(() => console.warn("🔇 El audio no se pudo iniciar automáticamente."));
+
+      audio.addEventListener('timeupdate', () => {
+        localStorage.setItem('audioTime', audio.currentTime);
+      });
+
+      muteButton.addEventListener("click", () => {
+        audio.muted = !audio.muted;
+        muteButton.textContent = audio.muted ? "🔈" : "🔊";
+      });
+
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) audio.pause();
+        else if (!audio.muted) audio.play();
+      });
+    });
+  </script>
+
+  <div class="about">
+    <img src="img/img3.jpg" alt="Sobre Nosotros" class="about__image">
+    <div class="about__details">
+      <div class="about__details-title">¿Quiénes Somos?</div>
+      <div class="about__details-description">
+        En MatiGeoX creemos que la matemática puede ser entretenida, visual e intuitiva. Nuestro objetivo es ayudarte a comprender conceptos fundamentales como nunca antes, a través de recursos gráficos, sonidos y ejercicios interactivos.
+      </div>
+      <button class="about__details-button">Explora Más</button>
+    </div>
+  </div>
+
+  <div class="gradient">
+    <div class="subscription">
+      <h2 class="subscription__title">Únete a Nuestra Comunidad</h2>
+      <p class="subscription__description">
+        Suscríbete y recibe contenido exclusivo, juegos matemáticos y retos semanales para mejorar tus habilidades.
+      </p>
+      <form class="subscription__form">
+        <input type="email" class="subscription__input" placeholder="Tu correo electrónico" required>
+        <button type="submit" class="subscription__button">Suscribirme</button>
+      </form>
+    </div>
+
+    <footer class="footer">
+      <div class="footer-links">
+        <div class="footer__branding">
+          <p class="footer__brand-name">MatiGeoX</p>
+        </div>
+        <div class="footer__column">
+          <a href="Teorema.html" class="footer__link">Teorema de Pitágoras</a>
+          <a href="Funciones.html" class="footer__link">Funciones Trigonométricas</a>
+          <a href="Ejercicios.html" class="footer__link">Ejercicios Prácticos</a>
+          <a href="Plano_Cartesiano.html" class="footer__link">Plano Cartesiano</a>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>© 2025 MatiGeoX. Todos los derechos reservados.</p>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

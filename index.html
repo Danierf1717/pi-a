@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="path/to/your/logo.png" type="image/png"> <!-- Agrega esta línea -->
+    <title>TrigoMattps - Matemáticas Simplificadas</title>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <a href="#" class="navbar__logo">TrigoMattps</a>
+        <div class="navbar__notch">
+            <p>Inicio</p>
+            <a href="index.html" class="navbar__menu-link">Inicio</a>
+        </div>
+
+        <div class="navbar__menu">
+            <a href="Teorema.html"class="navbar__menu-link">Pitágoras</a>
+            <a href="Funciones.html"class="navbar__menu-link">Funciones Trigonométricas</a>
+            <a href="Plano Cartesiano.html" class="navbar__menu-link">Plano Cartesioano</a>
+        </div>
+    </nav>
+
+    
+
+    <h2 class="separator">Teorema de Pitágoras</h2>
+
+    <div class="program">
+        <div class="program__info">
+            <h2 class="program__title">Entiende el Teorema de Pitágoras</h2>
+            <p class="program__description">
+                El teorema de Pitágoras establece que en un triángulo rectángulo, el cuadrado de la hipotenusa es igual a la suma de los cuadrados de los catetos.
+            </p>
+        </div>
+        <div class="program__image">
+            <img src="img/img3.jpg"  class="program__image-photo">
+        </div>
+    </div>
+
+    
+
+    <h2 class="separator">Funciones Trigonométricas</h2>
+
+    <div class="course-list">
+        <div class="course-list__item">
+            <img src="img/img2.jpg"  class="course-list__item-image">
+            <div class="course-list__item-details">
+                <h3 class="course-list__item-title">Seno</h3>
+                <p class="course-list__item-description">Aprende sobre la función seno y su aplicación en triángulos.</p>
+            </div>
+            <button class="course-list__item-button">Explorar</button>
+        </div>
+        <div class="course-list__item">
+            <img src="img/img5.jpg"  class="course-list__item-image">
+            <div class="course-list__item-details">
+            <h3 class="course-list__item-title">Coseno</h3>
+                <p class="course-list__item-description">Descubre la función coseno y cómo se relaciona con los ángulos en un triángulo.</p>
+            </div>
+            <button class="course-list__item-button">Explorar</button>
+        </div>
+        <div class="course-list__item">
+            <img src="img/img4.jpg"  class="course-list__item-image">
+            <div class="course-list__item-details">
+                <h3 class="course-list__item-title">Tangente</h3>
+                <p class="course-list__item-description">Conoce la función tangente y su importancia en la trigonometría.</p>
+            </div>
+            <button class="course-list__item-button">Explorar</button>
+        </div>
+    </div>
+
+    <div class="about">
+        <img src="img/img1.jpg" alt="About Image" class="about__image">
+        <div class="about__details">
+            <div class="about__details-title">Sobre TrigoMattps</div>
+            <div class="about__details-description">
+                En TrigoMattps, nos dedicamos a hacer que las matemáticas sean accesibles y divertidas para todos. Ofrecemos recursos interactivos y ejercicios prácticos para mejorar tus habilidades matemáticas.
+            </div>
+            <button class="about__details-button">Conócenos</button>
+        </div>
+    </div>
+
+    <div class="gradient">
+        <div class="subscription">
+            <h2 class="subscription__title">Suscríbete para Recibir Novedades</h2>
+            <p class="subscription__description">
+                Mantente al día con nuestras últimas lecciones y recursos exclusivos directamente en tu correo.
+            </p>
+            <form class="subscription__form">
+                <input type="email" class="subscription__input" placeholder="Ingresa tu email" required>
+                <button type="submit" class="subscription__button">Suscribirse</button>
+            </form>
+        </div>
+
+         
+        
+
+        <footer class="footer">
+            <div class="footer-links">
+                <div class="footer__branding">
+                    <p class="footer__brand-name">TrigoMattps</p>
+                </div>
+
+                <div class="footer__column">
+                    <a href="Teorema.html" class="footer__link">Teorema de Pitágoras</a>
+                    <a href="Funciones.html" class="footer__link">Funciones Trigonométricas</a>
+                    <a href="Ejercicios.html" class="footer__link">Ejercicios</a>
+                    <a href="Contacto.php" class="footer__link">Contacto</a>
+                </div>
+            </div>
+
+            <p class="footer__copyright">2025 © TrigoMattps</p>
+        </footer>
+    </div>
+</div>
+<audio id="audio" src="SpotifyMate.com - FUNK UNIVERSO - Slowed - Irokz.mp3" preload="auto" loop></audio>
+
+<button id="startButton" style="visibility: hidden;">Ir a Plano Cartesiano</button>
+<button id="infoButton" style="visibility: hidden;">Ir a Funciones</button>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const audio = document.getElementById('audio');
+        const startButton = document.getElementById('startButton');
+        const infoButton = document.getElementById('infoButton');
+
+        // Cargar la posición guardada
+        const savedTime = localStorage.getItem('audioTime');
+        if (savedTime) {
+            audio.currentTime = parseFloat(savedTime); // Reproducir desde la última posición guardada
+        }
+
+        // Función para reproducir el audio
+        function playAudio() {
+            audio.volume = 1.0; // Asegurar volumen alto
+            audio.muted = false; // Asegurar que no esté en mute
+
+            audio.play().then(() => {
+                console.log("🔊 Audio reproduciéndose correctamente.");
+            }).catch(error => {
+                console.warn("⚠️ Error al reproducir el audio:", error);
+            });
+        }
+
+        // Reproducir el audio cuando se carga la página
+        audio.play().then(() => {
+            document.title = "🔊 Reproduciendo Audio"; // Cambiar título al inicio del audio
+        });
+
+        // Guardar la posición actual al pausar o cerrar la pestaña
+        audio.addEventListener('timeupdate', () => {
+            localStorage.setItem('audioTime', audio.currentTime);
+        });
+
+        // Limpiar la posición guardada si el audio termina
+        audio.addEventListener('ended', () => {
+            localStorage.removeItem('audioTime');
+        });
+
+        // Función para alternar entre silenciar y no silenciar cuando la pestaña cambia de visibilidad
+        function handleVisibilityChange() {
+            if (document.hidden) {
+                // Cuando la pestaña está oculta, pausamos el audio
+                audio.pause();
+            } else {
+                // Cuando la pestaña vuelve a estar visible, reproducir el audio si no está en mute
+                if (!audio.muted) {
+                    audio.play();
+                }
+            }
+        }
+
+        // Detectar cuando la pestaña pierde o gana visibilidad
+        document.addEventListener("visibilitychange", handleVisibilityChange);
+    });
+</script>
+
+<script src="script.js"></script>
+</body>
+</html>
